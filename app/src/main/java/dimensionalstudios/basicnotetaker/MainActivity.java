@@ -3,6 +3,7 @@ package dimensionalstudios.basicnotetaker;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final int EDITOR_REQUEST_CODE = 1001;
     private NotesCursorAdapter cursorAdapter;
 
     @Override
@@ -141,5 +144,10 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     //When data needs to be wiped
     public void onLoaderReset(android.content.Loader<Cursor> loader) {
         cursorAdapter.swapCursor(null);
+    }
+
+    public void openEditorForNewNote(View view) {
+        Intent intent = new Intent(this, EditorActivity.class);
+        startActivityForResult(intent, EDITOR_REQUEST_CODE);
     }
 }

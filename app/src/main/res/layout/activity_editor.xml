@@ -4,22 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dimensionalstudios.basicnotetaker.MainActivity">
+    tools:context="dimensionalstudios.basicnotetaker.EditorActivity">
 
-    <ListView
-        android:id="@+id/android:list"
-        android:layout_width="344dp"
-        android:layout_height="441dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
-
-    <Button
-        android:id="@+id/button3"
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Note"
-        tools:layout_editor_absoluteX="258dp"
-        tools:layout_editor_absoluteY="455dp" />
-
-
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="0dp" />
 </android.support.constraint.ConstraintLayout>
