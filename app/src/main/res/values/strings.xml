@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Basic Note Taker</string>
+    <string name="app_name">Pinpoint Notes</string>
+    <string name="create_sample_data">Create sample data</string>
+    <string name="delete_all_nodes">Delete all nodes</string>
+    <string name="are_you_sure">Permanently delete everything?</string>
+    <string name="all_deleted">All notes deleted</string>
 </resources>
