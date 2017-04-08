@@ -4,4 +4,5 @@
     <string name="delete_all_nodes">Delete all nodes</string>
     <string name="are_you_sure">Permanently delete everything?</string>
     <string name="all_deleted">All notes deleted</string>
+    <string name="new_note">New Note</string>
 </resources>

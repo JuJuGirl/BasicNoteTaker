@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,18 +8,20 @@
 
     <ListView
         android:id="@+id/android:list"
-        android:layout_width="344dp"
-        android:layout_height="441dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Note"
-        tools:layout_editor_absoluteX="258dp"
-        tools:layout_editor_absoluteY="455dp" />
+        android:text="@string/new_note"
+        android:onClick="openEditorForNewNote"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
