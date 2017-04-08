@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor> {
 
-    private CursorAdapter cursorAdapter;
+    private NotesCursorAdapter cursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +42,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
         //What will display with
         //int[] to = {android.R.id.text1};
         int[] to = {R.id.tvNote};
-        cursorAdapter = new SimpleCursorAdapter(this,
-                    R.layout.note_list_item, null, from, to, 0);
+        cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
         ListView list = (ListView) findViewById(android.R.id.list);
         list.setAdapter(cursorAdapter);
