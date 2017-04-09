@@ -35,6 +35,7 @@ public class EditorActivity extends AppCompatActivity {
             action = Intent.ACTION_INSERT;
             setTitle(getString(R.string.new_note));
         } else {
+            setTitle(getString(R.string.editing_note));
             action = Intent.ACTION_EDIT;
             noteFilter = dbOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
 
