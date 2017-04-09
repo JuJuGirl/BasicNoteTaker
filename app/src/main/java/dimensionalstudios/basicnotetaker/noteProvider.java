@@ -23,6 +23,8 @@ public class noteProvider extends ContentProvider {
 
     //Parse URI and tell you which operation was requested
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    public static final String CONTENT_ITEM_TYPE = "node";
+
 
     //executes the first time anything is called from this class
     static{
@@ -30,7 +32,6 @@ public class noteProvider extends ContentProvider {
         //Looking for a particular note
         uriMatcher.addURI(AUTHORITY, BASE_PATH + "/#", NOTES_ID);
     }
-
     private SQLiteDatabase database;
 
     @Override
@@ -42,7 +43,14 @@ public class noteProvider extends ContentProvider {
 
     @Override
     //Gets all notes or specific note
+    //"selection" is a particular value
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+
+        //If note selected, only return that row
+        if(uriMatcher.match(uri) == NOTES_ID){
+            selection = dbOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
+        }
+
         //Table, columns, selection, x, x, x, sort (latest note listed first
         return database.query(dbOpenHelper.TABLE_NOTES, dbOpenHelper.ALL_COLUMNS, selection,
                 null, null, null, dbOpenHelper.NOTE_CREATED+" DESC");

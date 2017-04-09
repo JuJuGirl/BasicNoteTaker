@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -49,6 +50,20 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
         ListView list = (ListView) findViewById(android.R.id.list);
         list.setAdapter(cursorAdapter);
+
+        //Click handler
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            //On click, pass in an intent containing the content URI and id
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                Uri uri = Uri.parse(noteProvider.CONTENT_URI + "/" + id);
+                intent.putExtra(noteProvider.CONTENT_ITEM_TYPE, uri);
+                //Launch activity
+                startActivityForResult(intent, EDITOR_REQUEST_CODE);
+            }
+        });
 
         //id, arguments, implementation of LoaderCallbacks interface
         getLoaderManager().initLoader(0, null, this);
@@ -120,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
                 .show();
     }
 
+    //Refills and resets list
     private void restartLoader() {
         //Called every time we insert data
         getLoaderManager().restartLoader(0,null,this);
@@ -149,5 +165,13 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     public void openEditorForNewNote(View view) {
         Intent intent = new Intent(this, EditorActivity.class);
         startActivityForResult(intent, EDITOR_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //code should match
+        if(requestCode == EDITOR_REQUEST_CODE && resultCode == RESULT_OK){
+            restartLoader();
+        }
     }
 }
