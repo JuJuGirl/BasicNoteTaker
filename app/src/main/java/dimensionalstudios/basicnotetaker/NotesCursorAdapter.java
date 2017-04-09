@@ -33,7 +33,8 @@ public class NotesCursorAdapter extends CursorAdapter{
         //\n
         int pos = noteText.indexOf(10);
         if(pos != -1){
-            noteText = noteText.substring(0, pos) + "... (more)";
+            //Add ... for stuff that wraps with a new line
+            noteText = noteText.substring(0, pos) + "...";
         }
 
         TextView textView = (TextView) view.findViewById(R.id.tvNote);

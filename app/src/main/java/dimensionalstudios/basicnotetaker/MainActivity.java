@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //code should match
+        //if request code matches and RESULT_OK (successful change), reset list
         if(requestCode == EDITOR_REQUEST_CODE && resultCode == RESULT_OK){
             restartLoader();
         }

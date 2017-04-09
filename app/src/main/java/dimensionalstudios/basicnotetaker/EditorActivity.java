@@ -25,32 +25,32 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        Intent intent = getIntent();
         editor = (EditText) findViewById(R.id.editText);
+
+        Intent intent = getIntent();
+
         Uri uri = intent.getParcelableExtra(noteProvider.CONTENT_ITEM_TYPE);
-        if(uri == null){
-            //Insert
+
+        if (uri == null) {
             action = Intent.ACTION_INSERT;
-            setTitle(R.string.new_note);
-        }
-        else{
+            setTitle(getString(R.string.new_note));
+        } else {
             action = Intent.ACTION_EDIT;
             noteFilter = dbOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
 
-            //Location of whatever matched
-            Cursor cursor = getContentResolver().query(uri, dbOpenHelper.ALL_COLUMNS,
-                    noteFilter, null, null);
+            Cursor cursor = getContentResolver().query(uri,
+                    dbOpenHelper.ALL_COLUMNS, noteFilter, null, null);
             cursor.moveToFirst();
             oldText = cursor.getString(cursor.getColumnIndex(dbOpenHelper.NOTE_TEXT));
             editor.setText(oldText);
             editor.requestFocus();
         }
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
-
-        getMenuInflater().inflate(R.menu.menu_editor, menu);
+        if(action.equals(Intent.ACTION_EDIT)){
+            getMenuInflater().inflate(R.menu.menu_editor, menu);
+        }
         return true;
     }
 
@@ -59,6 +59,9 @@ public class EditorActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case android.R.id.home:
                 finishEdit();
+                break;
+            case R.id.action_delete:
+                deleteNote();
                 break;
         }
         return true;
@@ -78,13 +81,45 @@ public class EditorActivity extends AppCompatActivity {
                     setResult(RESULT_CANCELED);
                 }
                 else{
-                    Toast toast = Toast.makeText(context, "Note inserted!", duration);
+                    Toast toast = Toast.makeText(context, "Note added!", duration);
                     toast.show();
                     insertNote(newText);
+                }
+                break;
+            case Intent.ACTION_EDIT:
+                if(newText.isEmpty()){
+                    deleteNote();
+                }
+                else if(oldText.equals(newText)){
+                    Toast toast = Toast.makeText(context, "No changes made.", duration);
+                    toast.show();
+                    setResult(RESULT_CANCELED);
+                }
+                else{
+                    Toast toast = Toast.makeText(context, "Note updated!", duration);
+                    toast.show();
+                    updateNode(newText);
                 }
         }
         //Go back to the parent activity
         finish();
+    }
+
+    private void deleteNote() {
+        Toast toast = Toast.makeText(this, "Note erased!", Toast.LENGTH_LONG);
+        toast.show();
+
+        getContentResolver().delete(noteProvider.CONTENT_URI, noteFilter, null);
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    private void updateNode(String newText) {
+        ContentValues values = new ContentValues();
+        values.put(dbOpenHelper.NOTE_TEXT, newText);
+        getContentResolver().update(noteProvider.CONTENT_URI, values, noteFilter, null);
+        //Something has changed, update
+        setResult(RESULT_OK);
     }
 
     private void insertNote(String newText) {
@@ -94,6 +129,7 @@ public class EditorActivity extends AppCompatActivity {
         //Value = value
         values.put(dbOpenHelper.NOTE_TEXT, newText);
         Uri noteUri = getContentResolver().insert(noteProvider.CONTENT_URI, values);
+        //Something has changed, update
         setResult(RESULT_OK);
     }
 
